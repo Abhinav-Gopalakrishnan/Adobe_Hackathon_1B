@@ -1,16 +1,13 @@
 import os
 import json
-import fitz  # PyMuPDF
+import fitz
 from sentence_transformers import SentenceTransformer, util
 import logging
 
-# Setup logging
 logging.basicConfig(level=logging.INFO)
 
-# Load MiniLM model from offline directory
 model = SentenceTransformer('models/minilm-local')
 
-# Directories
 pdf_folder = "/content/Collection 1/PDFs/"
 input_json_path = "/content/Collection 1/challenge1b_input.json"
 output_json_path = "/content/Collection 1/challenge1b_output.json"
@@ -52,12 +49,10 @@ def rank_sections_globally(all_sections, job_description):
     return ranked
 
 def refine_text(text):
-    # Basic cleanup; you can improve further
     lines = [line.strip() for line in text.split('\n') if line.strip()]
     return ' '.join(lines[:5])
 
 def main():
-    # Load input JSON
     with open(input_json_path, 'r') as f:
         input_data = json.load(f)
 
@@ -80,7 +75,6 @@ def main():
 
     ranked_sections = rank_sections_globally(all_sections, f"{persona}: {job_description}")
 
-    # Format output
     output = {
         "metadata": {
             "persona": persona,
